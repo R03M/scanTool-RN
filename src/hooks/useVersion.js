@@ -12,9 +12,7 @@ const useVersion = () => {
   useEffect(() => {
     const getUpdate = async () => {
       try {
-        const response = await axios.get(
-          "https://apimocha.com/devtool-insautv1/currentVersion"
-        );
+        const response = await axios.get(URL);
         setNewVersion(response.data);
 
         if (response.data && response.data.version) {
