@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import * as Clipboard from "expo-clipboard";
 import useSoundAlerts from "../../hooks/useSound";
 import useVersion from "../../hooks/useVersion";
-import { BarCodeScanner } from "expo-barcode-scanner";
 import { View, Button, Text, ScrollView, Alert, Image } from "react-native";
 import {
   cyanColor,
@@ -13,14 +12,17 @@ import {
 } from "../../styles/globalStyles";
 import { styles } from "./homeStyles";
 import UpdateModal from "../../components/UpdateModal";
+import { Camera, FlashMode, CameraType } from "expo-camera";
 
 const Home = () => {
-  const [hasPermission, setHasPermission] = useState(null);
+  const [permission, requestPermission] = Camera.useCameraPermissions();
   const [activeCam, setActiveCam] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [listCode, setListCode] = useState([]);
   const { correct } = useSoundAlerts();
-  const { update, newVersion } = useVersion();
+  const { update, newVersion, error } = useVersion();
+  const [torchOn, setTorchOn] = useState(false);
+  const [zoom, setZoom] = useState(0);
 
   const handledelete = () => {
     Alert.alert("Wait", `${listCode.length} codes will be removed`, [
@@ -38,27 +40,26 @@ const Home = () => {
     ]);
   };
 
-  const permission = async () => {
-    const { status } = await BarCodeScanner.requestPermissionsAsync();
-    setHasPermission(status === "granted");
-  };
-
   const handleBarCodeScanned = async ({ data }) => {
+    if (listCode.length <= 0) {
+      setListCode([data]);
+      await correct.replayAsync();
+      return;
+    }
     const exitCode = listCode.find((e) => e === data);
     if (!exitCode) {
       setListCode((prevListCode) => [...prevListCode, data]);
       await correct.replayAsync();
     }
-    return;
   };
-
-  useEffect(() => {
-    permission();
-  }, []);
 
   const copyToClipboard = async () => {
     await Clipboard.setStringAsync(listCode.join("\n"));
   };
+
+  useEffect(() => {
+    requestPermission();
+  }, []);
 
   return (
     <>
@@ -68,17 +69,24 @@ const Home = () => {
         data={newVersion}
       />
       {!update ? null : (
-        <Button title="new update" onPress={() => setModalVisible(true)} color={green1Color}/>
+        <Button
+          title="new update"
+          onPress={() => setModalVisible(true)}
+          color={green1Color}
+        />
       )}
       <View style={styles.container}>
         {activeCam ? (
-          <BarCodeScanner
+          <Camera
+            style={{ flex: 1 }}
+            type={CameraType.back}
             onBarCodeScanned={handleBarCodeScanned}
-            style={{ flex: 1, height: "100%" }}
+            flashMode={torchOn ? FlashMode.torch : FlashMode.off}
+            zoom={zoom}
           >
             <View style={styles.lineHorz}></View>
             <View style={styles.lineVert}></View>
-          </BarCodeScanner>
+          </Camera>
         ) : (
           <Image
             style={styles.iconNotCam}
@@ -98,14 +106,13 @@ const Home = () => {
         </ScrollView>
       </View>
 
-      {!listCode.length ? null : (
-        <Text style={styles.countScan}>Scanned codes {listCode.length}</Text>
-      )}
-
       <View style={styles.btnsView}>
         {!listCode.length ? null : (
           <>
             <Button title="delete" color={red1Color} onPress={handledelete} />
+            <Text style={styles.countScan}>
+              SCANNED CODES {listCode.length}
+            </Text>
             <Button
               title="copy"
               color={green1Color}
@@ -113,24 +120,40 @@ const Home = () => {
             />
           </>
         )}
-        {activeCam && (
+        {!permission?.granted ? (
+          <Button title="give permissions" onPress={requestPermission} />
+        ) : null}
+      </View>
+      {activeCam && (
+        <View style={styles.btnsView}>
           <Button
             title="cancel scanner"
             color={red2Color}
             onPress={() => setActiveCam(false)}
           />
-        )}
-        {!hasPermission && (
-          <Button title="give permissions" onPress={() => permission()} />
-        )}
-        {!activeCam && hasPermission && (
+          <Button
+            title={!torchOn ? "torch on" : "off torch"}
+            color={'#ffca28'}
+            onPress={() => setTorchOn(!torchOn)}
+          />
+          <Button
+            title={zoom === 0 ? "zoom in" : "zoom off"}
+            color={'#5998c0'}
+            onPress={() => {
+              zoom === 1 ? setZoom(0) : setZoom(1);
+            }}
+          />
+        </View>
+      )}
+      {permission && !activeCam && (
+        <View style={styles.scanbtn}>
           <Button
             title="start scan"
             color={cyanColor}
             onPress={() => setActiveCam(true)}
           />
-        )}
-      </View>
+        </View>
+      )}
     </>
   );
 };

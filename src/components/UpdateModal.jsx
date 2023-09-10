@@ -23,6 +23,9 @@ const UpdateModal = ({ modalVisible, setModalVisible, data }) => {
         <Text style={styles.textSty}>
           Download the new version {data.version}
         </Text>
+        <Text style={styles.infSty}>
+          {data.info}
+        </Text>
         <View style={styles.centeredView}>
           <WebView source={{ uri: data.url }} />
         </View>
@@ -47,6 +50,13 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     fontWeight: "700",
+  },
+  infSty: {
+    backgroundColor: themeColor,
+    paddingBottom: 4,
+    paddingLeft: 10,
+    color: "#fff",
+    fontSize: 16,
   },
 });
 

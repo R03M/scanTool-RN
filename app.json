@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "devTool-Insaut",
-    "slug": "devtool-Insaut",
-    "version": "1.0.0",
+    "name": "INSAUT Tools",
+    "slug": "insaut-tools",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -19,10 +19,25 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.mrbluegrunws.devtoolinsaut"
     },
     "web": {
       "favicon": "./assets/icon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-barcode-scanner",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access camera."
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "1f22b747-f38e-40e2-b3cf-5f0e6552628e"
+      }
+    },
+    "owner": "mrbluegrunws"
   }
 }

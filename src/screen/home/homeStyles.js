@@ -14,9 +14,9 @@ export const styles = StyleSheet.create({
   },
   lineHorz: {
     borderColor: green1Color,
-    borderWidth: 0.8,
+    borderTopWidth: 0.8,
     top: "50%",
-    marginHorizontal: "30%",
+    marginHorizontal: "45%",
   },
   lineVert: {
     flex: 1,
@@ -24,8 +24,8 @@ export const styles = StyleSheet.create({
     borderLeftWidth: 0.8,
     height: "100%",
     left: "50%",
-    marginTop: "4%",
-    marginBottom: "6%",
+    marginTop: "30%",
+    marginBottom: "30%",
   },
   iconNotCam: {
     top: 1,
@@ -48,10 +48,12 @@ export const styles = StyleSheet.create({
   countScan: {
     backgroundColor: "green",
     textAlign: "center",
-    paddingVertical: 10,
+    padding: 7,
     color: "#fff",
     fontSize: 16,
-    fontWeight: "700",
+    fontWeight: "500",
+    borderRadius: 2,
+    elevation: 2
   },
   btnsView: {
     flexDirection: "row",
@@ -60,5 +62,10 @@ export const styles = StyleSheet.create({
     backgroundColor: themeColor,
     padding: 10,
     alignItems: "center",
+  },
+  scanbtn: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: themeColor,
   },
 });

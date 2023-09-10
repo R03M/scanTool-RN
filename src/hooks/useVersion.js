@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { URL } from "@env";
-import Constants from "expo-constants";
 import { compareVersions } from "../utils/compareVersions";
 
 const useVersion = () => {
   const [update, setUpdate] = useState(null);
+  const [error, setError] = useState(null);
   const [newVersion, setNewVersion] = useState({});
-  const appVersion = Constants.manifest2.extra.expoClient.version;
+  const appVersion = "1.0.2";
 
   useEffect(() => {
     const getUpdate = async () => {
@@ -20,13 +20,13 @@ const useVersion = () => {
           setUpdate(result === -1);
         }
       } catch (error) {
-        throw error;
+        setError({ status: true, msg: error.message });
       }
     };
     getUpdate();
   }, []);
 
-  return { update, newVersion };
+  return { update, newVersion, error };
 };
 
 export default useVersion;
