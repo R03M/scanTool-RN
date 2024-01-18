@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "scanTool",
-    "slug": "scanTool",
+    "slug": "scantool",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -13,14 +13,19 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "Allow $(PRODUCT_NAME) to access camera.",
+        "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to access your microphone"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.R03M.scanTool"
+      "package": "com.R03M.scanTool",
+      "permissions": ["android.permission.CAMERA"]
     },
     "web": {
       "favicon": "./assets/icon.png"
@@ -33,12 +38,12 @@
         }
       ],
       "expo-localization"
-    ]
-  },
-  "extra": {
-    "eas": {
-      "projectId": "7c5e5dd1-7185-46df-be6b-656fa833505b"
-    }
-  },
-  "owner": "r03m"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "7c5e5dd1-7185-46df-be6b-656fa833505b"
+      }
+    },
+    "owner": "r03m"
+  }
 }
