@@ -7,7 +7,7 @@ const useVersion = () => {
   const [update, setUpdate] = useState(null);
   const [error, setError] = useState(null);
   const [newVersion, setNewVersion] = useState({});
-  const appVersion = "1.0.2";
+  const appVersion = "1.5.0";
 
   useEffect(() => {
     const getUpdate = async () => {

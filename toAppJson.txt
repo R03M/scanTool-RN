@@ -1,0 +1,7 @@
+,
+    "extra": {
+      "eas": {
+        "projectId": "1f22b747-f38e-40e2-b3cf-5f0e6552628e"
+      }
+    },
+    "owner": "mrbluegru"

@@ -2,31 +2,26 @@ import { useState, useEffect } from "react";
 import { Audio } from "expo-av";
 
 const useSoundAlerts = () => {
-  const [sounds, setSounds] = useState({});
+  const [sound, setSound] = useState();
+
+  async function playSound() {
+    const { sound } = await Audio.Sound.createAsync(
+      require("../../assets/sound/ok.mp3")
+    );
+    setSound(sound);
+
+    await sound.playAsync();
+  }
 
   useEffect(() => {
-    const loadSounds = async () => {
-      const correct = new Audio.Sound();
-
-      await correct.loadAsync(require("../../assets/sound/ok.mp3"));
-
-      setSounds({
-        correct,
-      });
-    };
-    loadSounds();
-    return () => {
-      Object.values(sounds).forEach(async (sound) => {
-        try {
-          await sound.unloadAsync();
-        } catch (error) {
-          throw error;
+    return sound
+      ? () => {
+          sound.unloadAsync();
         }
-      });
-    };
-  }, []);
+      : undefined;
+  }, [sound]);
 
-  return sounds;
+  return playSound;
 };
 
 export default useSoundAlerts;

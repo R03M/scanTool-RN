@@ -1,15 +1,15 @@
 {
   "expo": {
-    "name": "INSAUT Tools",
-    "slug": "insaut-tools",
-    "version": "1.0.2",
+    "name": "scanTool",
+    "slug": "scanTool",
+    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#155a95"
+      "backgroundColor": "#1a5891"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
@@ -20,7 +20,7 @@
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.mrbluegrunws.devtoolinsaut"
+      "package": "com.R03M.scanTool"
     },
     "web": {
       "favicon": "./assets/icon.png"
@@ -31,6 +31,14 @@
         {
           "cameraPermission": "Allow $(PRODUCT_NAME) to access camera."
         }
-      ]
+      ],
+      "expo-localization"
     ]
+  },
+  "extra": {
+    "eas": {
+      "projectId": "7c5e5dd1-7185-46df-be6b-656fa833505b"
+    }
+  },
+  "owner": "r03m"
 }
